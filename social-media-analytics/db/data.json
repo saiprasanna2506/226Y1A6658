@@ -1,0 +1,33 @@
+{
+    "users": [
+      { "id": 1, "name": "John Doe", "followers": 200 },
+      { "id": 2, "name": "Jane Smith", "followers": 150 },
+      { "id": 3, "name": "Ty Taylor", "followers": 300 },
+      { "id": 4, "name": "Kathy Thomas", "followers": 75 },
+      { "id": 5, "name": "Liam Jackson", "followers": 500 }
+    ],
+    "posts": [
+      {
+        "id": 101,
+        "title": "Hello World",
+        "content": "First Post Content",
+        "likes": 10,
+        "timestamp": "2025-03-28T12:00:00Z"
+      },
+      {
+        "id": 102,
+        "title": "Node.js Tips",
+        "content": "Some tips about Node.js",
+        "likes": 50,
+        "timestamp": "2025-03-28T13:00:00Z"
+      },
+      {
+        "id": 103,
+        "title": "Express Basics",
+        "content": "Learn the basics of Express",
+        "likes": 75,
+        "timestamp": "2025-03-28T14:00:00Z"
+      }
+    ]
+  }
+  
