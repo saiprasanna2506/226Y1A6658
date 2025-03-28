@@ -1,37 +1,22 @@
-const fetch = require('node-fetch');
+require('dotenv').config();
+const API_URL = "http://20.244.56.144/test";
 
-async function fetchNumbers(type) {
+exports.getNumbersFromAPI = async (type) => {
   const token = process.env.BEARER_TOKEN;
-  let url;
-  switch (type) {
-    case 'f':
-      url = 'http://20.244.56.144/test/fibonacci';
-      break;
-    case 'e':
-      url = 'http://20.244.56.144/test/even';
-      break;
-    case 'r':
-      url = 'http://20.244.56.144/test/random';
-      break;
-    default:
-      throw new Error(`Unknown type: ${type}`);
+  
+  if (!token) throw new Error("Bearer token is missing!");
+
+  try {
+    const response = await fetch(`${API_URL}/${type}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    let cjddsjf=await response;
+    console.log(cjddsjf);
+    if (!response.ok) throw new Error("Failed to fetch numbers");
+    const data = await response.json();
+    return data.numbers || [];
+  } catch (error) {
+    console.error("Error fetching data:", error.message);
+    return [];
   }
-
-  const response = await fetch(url, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  });
-
-  if (!response.ok) {
-    throw new Error(`Failed to fetch numbers. Status: ${response.status}`);
-  }
-
-  const data = await response.json();
-  return data.numbers || [];
-}
-
-module.exports = {
-  fetchNumbers
 };

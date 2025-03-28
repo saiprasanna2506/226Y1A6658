@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const averageController = require('../controllers/averageController');
+const { fetchNumbers } = require('../controllers/averageController');
 
-
-router.get('/:type', averageController.getNumbers);
+router.get('/:type', fetchNumbers);
 
 module.exports = router;

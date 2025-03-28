@@ -1,30 +1,36 @@
-const dataService = require('../services/dataService');
-const { updateWindow, calculateAverage } = require('../utils/slidingWindow');
-
+const { getNumbersFromAPI } = require('../services/dataService');
+const { updateSlidingWindow, calculateAverage } = require('../utils/slidingWindow');
 
 let windowState = [];
 
-exports.getNumbers = async (req, res) => {
+exports.fetchNumbers = async (req, res) => {
   try {
-    const { type } = req.params;
-    const prevState = [...windowState];
+    let { type } = req.params;
+    if(type == 'e'){
+      type="even";
+    }else if(type == 'f'){
+      type="fibo";
+    }else if(type == 'p'){
+      type="primes";
+    }else{
+      type="rand";
+    }
+    const newNumbers = await getNumbersFromAPI(type);
 
-    const newNumbers = await dataService.fetchNumbers(type);
 
-    windowState = updateWindow(windowState, newNumbers, 10);
+    const windowPrevState = [...windowState];
 
+    windowState = updateSlidingWindow(windowState, newNumbers, 10);
     const avg = calculateAverage(windowState);
 
-    const responsePayload = {
-      windowPrevState: prevState,
+    res.json({
+      windowPrevState,
       windowCurrState: windowState,
       numbers: newNumbers,
-      avg: avg
-    };
-
-    return res.json(responsePayload);
+      avg
+    });
   } catch (error) {
-    console.error('Error in getNumbers:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    console.error("Error in fetchNumbers:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
